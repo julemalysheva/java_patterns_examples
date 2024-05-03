@@ -5,17 +5,24 @@ public class Builder001 {
         String[] items = {"Item1", "Item2", "Item3"};
 
         //append работает сильно быстрее по сравнению с обычной конкатенацией
-        xml.append("<xml>" + System.lineSeparator());
-        xml.append(" <items>" + System.lineSeparator());
+        xml.append("<xml>")
+                .append(System.lineSeparator())
+                .append(" <items>")
+                .append(System.lineSeparator());
 
-        for (String item: items) {
-            xml.append("  <item>" + item + "</item>" + System.lineSeparator());
+        for (String item : items) {
+            xml.append("  <item>")
+                    .append(item)
+                    .append("</item>")
+                    .append(System.lineSeparator());
         }
 
-        xml.append(" </items>" + System.lineSeparator());
-        xml.append("</xml>" + System.lineSeparator());
+        xml.append(" </items>")
+                .append(System.lineSeparator())
+                .append("</xml>")
+                .append(System.lineSeparator());
 
         System.out.println(xml);
     }
 }
-
+//fluent interface

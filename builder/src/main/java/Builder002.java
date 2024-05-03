@@ -6,9 +6,9 @@ public class Builder002 {
         XmlBuilder root = new XmlBuilder("root");
         XmlBuilder xml = new XmlBuilder("xml");
 
-        xml.appendPair("item", "Item1");
-        xml.appendPair("item", "Item2");
-        xml.appendPair("item", "Item3");
+        xml.appendPair("item", "Item1")
+        .appendPair("item", "Item2")
+        .appendPair("item", "Item3");
 
         root.append(xml);
         System.out.println(root);
@@ -80,13 +80,15 @@ class XmlBuilder {
         this.root.tag = rootName;
     }
 
-    public void appendPair(String tagName, String value) {
+    public XmlBuilder appendPair(String tagName, String value) {
         XmlItem item = new XmlItem(tagName, value);
         this.root.items.add(item);
+        return this;
     }
 
-    public void append(XmlBuilder builder) {
+    public XmlBuilder append(XmlBuilder builder) {
         root.items.add(builder.root);
+        return this;
     }
 
     public void clear() {

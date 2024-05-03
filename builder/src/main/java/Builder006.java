@@ -1,3 +1,4 @@
+//Проблемы строителя при построении иерархий
 public class Builder006 {
     public static void main(String[] args) {
         EmployeeBuilder eb = new EmployeeBuilder()

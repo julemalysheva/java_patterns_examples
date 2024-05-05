@@ -1,12 +1,6 @@
-package abstract_factory;
+package abstract_factory002;
 /**
- * Абстрактная фабрика, которая никак не зависит и не привязана к конкретному типу.
- * В таком случае при расширении и добавлении новых типов достаточно будет описать
- * класс типа и отдельно его фабрику - получение экземпляра сработает и для него.
- * Здесь возможны разные модификации, в т.ч. передача типа машины не через строку,
- * а через перечисления Enum, но тогда при расширении придется менять и Enum, и Seller,
- * проверяя типы через switch. Однако при таком подходе в клиентском коде будут только
- * заранее определенные типы, что минимизирует ошибки использования кода.
+ * Абстрактная фабрика, и польза паттерна Null Object
  */
 
 import org.reflections.Reflections;
@@ -24,6 +18,9 @@ public class Main {
         car.Drive();
 
         car = seller.getCar("ConcreteMixerCar");
+        car.Drive();
+
+        car = seller.getCar("AudiCar");
         car.Drive();
 
     }
@@ -44,6 +41,16 @@ class ConcreteMixerCar implements Car {
     @Override
     public void Drive() {
         System.out.println("Ты едешь на бетономешалке");
+    }
+}
+
+//Null Object тип заглушка для ненайденных ошибочных инициализаций
+//Здесь также можно добавить логирование, принимать какие-то аргументы,
+//чтобы понимать, что написал пользователь и т.д.
+class UnknownCar implements Car {
+    @Override
+    public void Drive() {
+        System.out.println("Упс... Что-то пошло не так");
     }
 }
 
@@ -74,7 +81,7 @@ class Seller {
             InstantiationException,
             IllegalAccessException {
         //получаем только типы, явл. наследниками CarFactory
-        Set<Class<? extends CarFactory>> types = new Reflections("abstract_factory")
+        Set<Class<? extends CarFactory>> types = new Reflections("abstract_factory002")
                 .getSubTypesOf(CarFactory.class);
         //помещаем в наше хранилище
         for (Class<? extends CarFactory> tClass: types) {
@@ -84,7 +91,12 @@ class Seller {
 
     }
 
+    //Добавляем проверку и использование Null
     public Car getCar(String carType) {
+        CarFactory factory = factories.get(carType+"Factory");
+        if (factory == null) {
+            return new UnknownCar();
+        }
         return factories.get(carType+"Factory").getCar();
     }
 

@@ -64,6 +64,16 @@ class Settings implements Serializable {
     private Settings() {
     }
 
+    /**
+     * При десериализации Java метод readResolve() используется для замены
+     * объекта, созданного во время десериализации, другим объектом.
+     * Это может быть полезно в ситуациях, когда нам нужно убедиться,
+     * что в нашем приложении существует только один экземпляр определенного
+     * класса, или когда мы хотим заменить объект другим экземпляром, который,
+     * возможно, уже существует в памяти.
+     * https://www.baeldung.com/java-serialization-readobject-vs-readresolve
+     * @return
+     */
     protected Object readResolve() {
         return lazyInstance;
     }

@@ -1,3 +1,5 @@
+package v1_basic;
+
 public class TemplateMethod001 {
     public static void main(String[] args) {
         Coffee coffee = new Coffee();
